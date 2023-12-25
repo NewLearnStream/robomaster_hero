@@ -53,10 +53,13 @@
         "name": "default",
         "incList": [
           ".eide/deps",
+          "code/app/config",
           "code/infrastructure/bsp/robomaster_hero",
           "code/infrastructure/platform/arch/stm32f4xx/cmsis/core",
           "code/infrastructure/platform/arch/stm32f4xx/cmsis/device/Include",
-          "code/infrastructure/platform/arch/stm32f4xx/STM32F4xx_HAL_Driver/Inc"
+          "code/infrastructure/platform/arch/stm32f4xx/STM32F4xx_HAL_Driver/Inc",
+          "code/infrastructure/component/threadx/threadx/common/inc",
+          "code/infrastructure/component/threadx/ports/cortex_m7/gnu/inc"
         ],
         "libList": [],
         "sourceDirList": [],

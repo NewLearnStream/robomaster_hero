@@ -9,7 +9,7 @@
 
 /**
 *********************************************************************************************************
-* @file   : main.cpp
+* @file   : app_config.h
 * @author : xiongqulin
 * @date   : 25 Dev 2023
 * @brief  :
@@ -17,37 +17,17 @@
 *********************************************************************************************************
 */
 
-#include "stm32f4xx.h"
-#include "app_config.h"
-#include "app.hpp"
-#include "board.hpp"
-#include "tx_api.h"
+#pragma once
 
-int main()
-{
-    Board::init();
+// 中断优先级配置
+enum ISRPriority {
+    ISR_Prio_CAN1,    // CAN1
+    ISR_Prio_CAN2,    // CAN2
+    ISR_Prio_SysTick, // SysTick
+    ISR_Prio_MAX,
+};
 
-    tx_kernel_enter();
-}
+// 线程优先级
+enum ThreadPriority {
 
-extern "C" {
-
-extern uint32_t g_pfnVectors;
-
-void _tx_initialize_low_level(void)
-{
-    __set_PRIMASK(1);         // 关闭全部中断
-    SCB->VTOR = g_pfnVectors; // 设置中断向量表偏移
-
-    NVIC_SetPriority(SVCall_IRQn, 0xFF);
-
-    NVIC_SetPriority(PendSV_IRQn, 0xFF);
-
-    NVIC_SetPriority(SysTick_IRQn, ISR_Prio_SysTick);
-}
-
-void tx_application_define(void *first_unused_memory)
-{
-    App::init();
-}
-}
+};

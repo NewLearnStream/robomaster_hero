@@ -9,7 +9,7 @@
 
 /**
 *********************************************************************************************************
-* @file   : main.cpp
+* @file   : Board.hpp
 * @author : xiongqulin
 * @date   : 25 Dev 2023
 * @brief  :
@@ -17,37 +17,20 @@
 *********************************************************************************************************
 */
 
-#include "stm32f4xx.h"
-#include "app_config.h"
-#include "app.hpp"
-#include "board.hpp"
-#include "tx_api.h"
+#pragma once
 
-int main()
-{
-    Board::init();
+namespace Board {
+struct Board {
 
-    tx_kernel_enter();
-}
+    Board();
+};
 
-extern "C" {
+void init();
 
-extern uint32_t g_pfnVectors;
+void deinit();
 
-void _tx_initialize_low_level(void)
-{
-    __set_PRIMASK(1);         // 关闭全部中断
-    SCB->VTOR = g_pfnVectors; // 设置中断向量表偏移
+void enable_irqs();
 
-    NVIC_SetPriority(SVCall_IRQn, 0xFF);
+}; // namespace Board
 
-    NVIC_SetPriority(PendSV_IRQn, 0xFF);
-
-    NVIC_SetPriority(SysTick_IRQn, ISR_Prio_SysTick);
-}
-
-void tx_application_define(void *first_unused_memory)
-{
-    App::init();
-}
-}
+extern Board::Board *board;

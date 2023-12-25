@@ -16,3 +16,20 @@
 *
 *********************************************************************************************************
 */
+
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+
+#include "stm32f4xx.h"
+
+void bsp_can_init();
+
+extern CAN_HandleTypeDef hcan1;
+extern CAN_HandleTypeDef hcan2;
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
