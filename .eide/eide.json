@@ -1,0 +1,71 @@
+{
+  "name": "robomaster_hero",
+  "type": "ARM",
+  "dependenceList": [],
+  "srcDirs": [
+    ".eide/deps",
+    "code"
+  ],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": []
+  },
+  "outDir": "build",
+  "deviceName": null,
+  "packDir": null,
+  "miscInfo": {
+    "uid": "236a612cbd9fe8e6d0c570fcc994cd1a"
+  },
+  "targets": {
+    "Debug": {
+      "excludeList": [
+        "code/infrastructure/platform/arch/stm32f4xx/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c",
+        "code/infrastructure/platform/arch/stm32f4xx/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c",
+        "code/infrastructure/platform/arch/stm32f4xx/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_tim_template.c"
+      ],
+      "toolchain": "GCC",
+      "compileConfig": {
+        "cpuType": "Cortex-M3",
+        "floatingPointHardware": "none",
+        "scatterFilePath": "code\\infrastructure\\bsp\\robomaster_hero\\linker\\STM32F427IITx_FLASH.ld",
+        "useCustomScatterFile": true,
+        "storageLayout": {
+          "RAM": [],
+          "ROM": []
+        },
+        "options": "null"
+      },
+      "uploader": "JLink",
+      "uploadConfig": {
+        "bin": "",
+        "baseAddr": "",
+        "cpuInfo": {
+          "vendor": "null",
+          "cpuName": "null"
+        },
+        "proType": 1,
+        "speed": 8000,
+        "otherCmds": ""
+      },
+      "uploadConfigMap": {},
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          ".eide/deps",
+          "code/infrastructure/bsp/robomaster_hero",
+          "code/infrastructure/platform/arch/stm32f4xx/cmsis/core",
+          "code/infrastructure/platform/arch/stm32f4xx/cmsis/device/Include",
+          "code/infrastructure/platform/arch/stm32f4xx/STM32F4xx_HAL_Driver/Inc"
+        ],
+        "libList": [],
+        "sourceDirList": [],
+        "defineList": [
+          "STM32F427xx",
+          "USE_HAL_DRIVER"
+        ]
+      }
+    }
+  },
+  "version": "3.3"
+}

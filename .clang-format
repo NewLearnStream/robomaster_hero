@@ -1,0 +1,45 @@
+---
+BasedOnStyle: LLVM
+Language: Cpp
+
+###################################
+#          indent conf
+###################################
+
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+ColumnLimit: 0
+AccessModifierOffset: -4
+NamespaceIndentation: Inner
+FixNamespaceComments: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterControlStatement: Always
+    AfterFunction: true
+    BeforeElse: true
+
+###################################
+#          other styles
+###################################
+
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: true
+
+IndentCaseLabels: false
+SortIncludes: false
+
+AlignConsecutiveMacros: 
+    Enabled: true
+    AcrossEmptyLines: true
+    AcrossComments: true
+
+AlignConsecutiveAssignments: Consecutive
+
+# 
+# for more conf, you can ref: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+#
+
+
+
