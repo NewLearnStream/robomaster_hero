@@ -120,8 +120,8 @@ public:
 template <typename T>
 class SeriesPostionPid {
 private:
-    PostionPid<T> &_interior_pid;
-    PostionPid<T> &_outer_pid;
+    PostionPid<T> &_interior_pid;  //内环PID
+    PostionPid<T> &_outer_pid;     //外环PID
 
 public:
     SeriesPostionPid(PostionPid<T> &interior_pid, PostionPid<T> &outer_pid)
@@ -132,8 +132,7 @@ public:
 
     T run(T tar, T interior_measure, T outer_measure)
     {
-        T out_put;
-        out_put = _interior_pid.run(tar, interior_measure);
-        return (_outer_pid.run(out_put, outer_measure));
+        T out_put = _outer_pid.run(tar, outer_measure);
+        return (_interior_pid.run(out_put, interior_measure));
     }
 };

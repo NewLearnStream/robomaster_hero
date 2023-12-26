@@ -18,7 +18,6 @@
 */
 
 class Can {
-
 public:
     virtual void send() = 0;
 
