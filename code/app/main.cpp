@@ -23,6 +23,8 @@
 #include "board.hpp"
 #include "tx_api.h"
 
+#include "infrastructure\component\common\pid.hpp"
+
 int main()
 {
     Board::init();

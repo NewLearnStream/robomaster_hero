@@ -53,6 +53,9 @@
         "name": "default",
         "incList": [
           ".eide/deps",
+          "code",
+          "code/app",
+          "code/infrastructure",
           "code/app/config",
           "code/infrastructure/bsp/robomaster_hero",
           "code/infrastructure/platform/arch/stm32f4xx/cmsis/core",
