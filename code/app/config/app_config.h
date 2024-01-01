@@ -29,5 +29,8 @@ enum ISRPriority {
 
 // 线程优先级
 enum ThreadPriority {
+    Thread_Prio_Chassis,
 
 };
+
+#define THREAD_STACK_SIZE_CHASSIS (4 * 1024)

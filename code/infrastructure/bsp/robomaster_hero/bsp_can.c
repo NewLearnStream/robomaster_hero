@@ -53,6 +53,12 @@ void bsp_can_init()
     HAL_CAN_Init(&hcan2);
 }
 
+void bsp_can_deinit()
+{
+    HAL_CAN_DeInit(&hcan1);
+    HAL_CAN_DeInit(&hcan2);
+}
+
 void HAL_CAN_MspInit(CAN_HandleTypeDef *canHandle)
 {
     if (canHandle->Instance == CAN1)
@@ -104,4 +110,14 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef *canHandle)
         HAL_NVIC_DisableIRQ(CAN2_TX_IRQn);
         HAL_NVIC_DisableIRQ(CAN2_RX0_IRQn);
     }
+}
+
+void CAN1_RX0_IRQHandler(void)
+{
+    HAL_CAN_IRQHandler(&hcan1);
+}
+
+void CAN2_TX_IRQHandler(void)
+{
+    HAL_CAN_IRQHandler(&hcan2);
 }

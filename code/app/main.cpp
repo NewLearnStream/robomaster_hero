@@ -20,14 +20,14 @@
 #include "stm32f4xx.h"
 #include "app_config.h"
 #include "app.hpp"
-#include "board.hpp"
+#include "bsp.hpp"
 #include "tx_api.h"
 
 #include "infrastructure\component\common\pid.hpp"
 
 int main()
 {
-    Board::init();
+    BSP::init();
 
     tx_kernel_enter();
 }

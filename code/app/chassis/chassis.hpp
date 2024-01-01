@@ -9,28 +9,36 @@
 
 /**
 *********************************************************************************************************
-* @file   : Board.hpp
+* @file   : chassis.hpp
 * @author : xiongqulin
-* @date   : 25 Dev 2023
+* @date   : 1 Jan 2024
 * @brief  :
 *
 *********************************************************************************************************
 */
 
-#pragma once
+#include "bsp.hpp"
+#include "infrastructure/component/common/os.hpp"
+#include "infrastructure/platform/hal/can.hpp"
+#include "app_config.h"
 
-namespace Board {
-struct Board {
+class ChassisThread : public os::Thread<THREAD_STACK_SIZE_CHASSIS> {
+private:
+    Can &_can;
 
-    Board();
+public:
+    ChassisThread(const char *name = "chassis_thread")
+        : Thread(name, Thread_Prio_Chassis),
+          _can(board->can1)
+    {
+    }
+
+public:
+    void run() override
+    {
+        while (1)
+        {
+            os::delay_ms(10);
+        }
+    }
 };
-
-void init();
-
-void deinit();
-
-void enable_irqs();
-
-}; // namespace Board
-
-extern Board::Board *board;

@@ -20,7 +20,9 @@
             "*.cxx": "cpp",
             "*.cc": "cpp",
             "type_traits": "cpp",
-            "limits": "cpp"
+            "limits": "cpp",
+            "cstdint": "cpp",
+            "system_error": "cpp"
         },
         "[yaml]": {
             "editor.insertSpaces": true,

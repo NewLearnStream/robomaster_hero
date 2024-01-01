@@ -22,15 +22,11 @@
 
 class MotorBase {
 public:
-    union Message {
-        struct
-        {
-            uint16_t angle;
-            uint16_t speed;
-            uint16_t current;
-            uint8_t temperture;
-        };
-        uint8_t data[7];
+    struct Message {
+        uint16_t angle;
+        uint16_t speed;
+        uint16_t current;
+        uint8_t temperture;
     };
 
 private:

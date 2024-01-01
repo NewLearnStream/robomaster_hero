@@ -23,7 +23,7 @@
 class CanDriver : public Can {
 private:
     uint32_t can_tx_mailbox;
-    CAN_TxHeaderTypeDef can_tx_hander;
+
     bool is_error = false;
 
 private:
@@ -38,6 +38,7 @@ public:
 
     void send(const uint32_t id, uint8_t *buf, uint32_t len)
     {
+        CAN_TxHeaderTypeDef can_tx_hander;
         can_tx_hander.StdId              = id;
         can_tx_hander.ExtId              = 0x00;
         can_tx_hander.RTR                = CAN_RTR_DATA;
@@ -49,12 +50,12 @@ public:
 
     void rece(const uint32_t id, uint8_t *buf, uint32_t len)
     {
-        can_tx_hander.StdId              = id;
-        can_tx_hander.ExtId              = 0x00;
-        can_tx_hander.RTR                = CAN_RTR_DATA;
-        can_tx_hander.IDE                = CAN_ID_STD;
-        can_tx_hander.DLC                = len;
-        can_tx_hander.TransmitGlobalTime = DISABLE;
-        HAL_CAN_GetRxMessage(_hcan, &can_tx_hander, buf, &can_tx_mailbox);
+        // CAN_RxHeaderTypeDef can_rx_hander;
+        // can_rx_hander.StdId = id;
+        // can_rx_hander.ExtId = 0x00;
+        // can_rx_hander.RTR   = CAN_RTR_DATA;
+        // can_rx_hander.IDE   = CAN_ID_STD;
+        // can_rx_hander.DLC   = len;
+        // HAL_CAN_GetRxMessage(_hcan, buf, &can_rx_hander, &can_tx_mailbox);
     }
 };

@@ -17,25 +17,29 @@
 *********************************************************************************************************
 */
 
-#include "board.hpp"
+#include "bsp.hpp"
 
-Board::Board *board = nullptr;
+BSP::Board *board = nullptr;
 
-namespace Board {
+namespace BSP {
 Board::Board()
+    : can1(&hcan1),
+      can2(&hcan1)
 {
 }
 
 void init()
 {
+    bsp_can_init();
 }
 
 void deinit()
 {
+    bsp_can_deinit();
 }
 
 void enable_irqs()
 {
 }
 
-} // namespace Board
+} // namespace BSP

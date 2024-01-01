@@ -18,6 +18,7 @@
 */
 
 #include "tx_api.h"
+#include "infrastructure\component\etl\delegate.h"
 #include <cstdint>
 
 namespace os {
@@ -58,7 +59,7 @@ private:
 private:
     static void entry(uint32_t arg)
     {
-        Thread *me = reinterpret_cast<Thread *>(arg_me);
+        Thread *me = reinterpret_cast<Thread *>(arg);
         me->run();
     }
 };
@@ -95,7 +96,7 @@ public:
 
     void put()
     {
-        tx_semaphore_put();
+        tx_semaphore_put(&_semaphore);
     }
 };
 
@@ -137,7 +138,7 @@ private:
 public:
     Timer(const char *name, void (*fun)(uint32_t), uint32_t fun_arg)
     {
-        tx_timer_create(&_timer, name, fun, fun_arg, UINT32_MAX, UINT32_MAX, TX_NO_ACTIVATE);
+        tx_timer_create(&_timer, const_cast<char *>(name), fun, fun_arg, UINT32_MAX, UINT32_MAX, TX_NO_ACTIVATE);
     }
 
     ~Timer()
@@ -149,6 +150,66 @@ public:
     {
         tx_timer_change(&_timer, initial_tick, reschedule_ticks);
         tx_timer_activate(&_timer);
+    }
+};
+
+template <typename Object, void (Object::*Func)()>
+class TimerMV : public Timer {
+private:
+    etl::delegate<void(void)> _d;
+
+public:
+    TimerMV(const char *name, Object &inst)
+        : Timer(name, time_fun, this),
+          _d(etl::delegate<void(void)>::create<Object, Func>(inst))
+    {
+    }
+
+public:
+    static void time_fun(uint32_t param)
+    {
+        TimerMV *me = reinterpret_cast<TimerMV *>(param);
+        me->_d();
+    }
+};
+
+template <typename TMesssage, uint32_t DETP>
+class MessageQueue {
+private:
+    TX_QUEUE _queue;
+    uint8_t _mem_sto[DETP * sizeof(TMesssage)];
+
+public:
+    MessageQueue(const char *name = "")
+    {
+        tx_queue_create(&_queue, const_cast<char *>(name), DETP, _mem_sto, sizeof(_mem_sto));
+    }
+
+    ~MessageQueue()
+    {
+        tx_queue_delete(&_queue);
+    }
+
+    void send(const TMesssage *msg)
+    {
+        tx_queue_send(&_queue, msg, TX_WAIT_FOREVER);
+    }
+
+    bool try_send(const TMesssage *msg)
+    {
+        uint32_t status = tx_queue_send(&_queue, msg, TX_NO_WAIT);
+        return (status == TX_SUCCESS);
+    }
+
+    void receive(const TMesssage *msg)
+    {
+        tx_queue_receive(&_queue, msg, TX_WAIT_FOREVER);
+    }
+
+    bool try_receive(const TMesssage *msg)
+    {
+        uint32_t status = tx_queue_receive(&_queue, msg, TX_NO_WAIT);
+        return (status == TX_SUCCESS);
     }
 };
 

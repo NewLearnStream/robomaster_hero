@@ -27,6 +27,8 @@ extern "C" {
 
 void bsp_can_init();
 
+void bsp_can_deinit();
+
 extern CAN_HandleTypeDef hcan1;
 extern CAN_HandleTypeDef hcan2;
 

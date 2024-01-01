@@ -68,7 +68,8 @@
         "sourceDirList": [],
         "defineList": [
           "STM32F427xx",
-          "USE_HAL_DRIVER"
+          "USE_HAL_DRIVER",
+          "USE_FULL_LL_DRIVER"
         ]
       }
     }

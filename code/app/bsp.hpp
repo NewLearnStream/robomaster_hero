@@ -9,7 +9,7 @@
 
 /**
 *********************************************************************************************************
-* @file   : motor_base.hpp
+* @file   : Board.hpp
 * @author : xiongqulin
 * @date   : 25 Dev 2023
 * @brief  :
@@ -17,9 +17,25 @@
 *********************************************************************************************************
 */
 
-class Can {
-public:
-    virtual void send(const uint32_t id, uint8_t *buf, uint32_t len) = 0;
+#pragma once
 
-    virtual void rece(const uint32_t id, uint8_t *buf, uint32_t len) = 0;
+#include "bsp_can.h"
+
+#include "infrastructure/platform/arch/stm32f4xx/can_driver.hpp"
+
+namespace BSP {
+struct Board {
+    CanDriver can1;
+    CanDriver can2;
+    Board();
 };
+
+void init();
+
+void deinit();
+
+void enable_irqs();
+
+}; // namespace BSP
+
+extern BSP::Board *board;
