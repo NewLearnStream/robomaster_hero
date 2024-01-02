@@ -36,10 +36,15 @@ private:
 
 private:
     Can &_can;
-    M3508 &m3508_lf; // 左前方车轮
-    M3508 &m3508_lr; // 左后方车轮
-    M3508 &m3508_rr; // 右后方车轮
-    M3508 &m3508_rf; // 右前方车轮
+    IncrementalPid pid_lf(1.0f, 1.0f, 1.0f, 3000, 200); // 左前轮PID参数
+    IncrementalPid pid_lr(1.0f, 1.0f, 1.0f, 3000, 200); // 左后轮PID参数
+    IncrementalPid pid_rr(1.0f, 1.0f, 1.0f, 3000, 200); // 右前轮PID参数
+    IncrementalPid pid_rf(1.0f, 1.0f, 1.0f, 3000, 200); // 左前轮PID参数
+
+    M3508 &m3508_lf; // 左前轮电机
+    M3508 &m3508_lr; // 左后轮电机
+    M3508 &m3508_rr; // 右后轮电机
+    M3508 &m3508_rf; // 右前轮电机
 private:
     int16_t _motor_speed[4];
 
@@ -47,10 +52,10 @@ public:
     ChassisThread(const char *name = "chassis_thread")
         : Thread(name, Thread_Prio_Chassis),
           _can(board->can1),
-          m3508_lf(),
-          m3508_lr(),
-          m3508_rr(),
-          m3508_rf()
+          m3508_lf(0x201, pid_lf),
+          m3508_lr(0x202, pid_lr),
+          m3508_rr(0x203, pid_rr),
+          m3508_rf(0x204, pid_rf)
     {
     }
 
