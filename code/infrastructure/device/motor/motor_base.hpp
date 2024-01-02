@@ -47,6 +47,4 @@ public:
     {
         return _motor_id;
     }
-
-    virtual uint16_t send_current() = 0;
 };

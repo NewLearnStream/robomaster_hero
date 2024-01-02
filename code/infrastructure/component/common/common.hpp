@@ -20,6 +20,7 @@
 #pragma once
 
 #include <cstdint>
+#include <math.h>
 
 template <typename T>
 static inline T clip(T value, T max, T min)
@@ -29,4 +30,15 @@ static inline T clip(T value, T max, T min)
     else if (value < min)
         value = min;
     return value;
+}
+
+template <typename T>
+static inline T abs_max(T *arr, uint32_t len)
+{
+    T max;
+    for (uint32_t i = 0; i < len; i++)
+    {
+        if (abs(arr[i]) > max)
+            max = abs(arr[i]);
+    }
 }

@@ -18,11 +18,44 @@
 */
 
 #include "motor_base.hpp"
+#include "infrastructure/component/common/pid.hpp"
+#include "infrastructure/platform/hal/can.hpp"
 
 class M3508 : public MotorBase {
+private:
+    IncrementalPid<float> &_pid;
+    struct Message _msg;
+
 public:
-    M3508(const uint16_t motor_id)
-        : MotorBase(motor_id)
+    M3508(const uint16_t motor_id, IncrementalPid<float> &pid)
+        : MotorBase(motor_id),
+          _pid(pid)
     {
+    }
+
+    float output_current(uint32_t target)
+    {
+        _pid.run(target, _msg.current);
+    }
+
+    void updata_message(const uint16_t id)
+    {
+        if (id == _motor_id)
+            decode(&_msg);
+    }
+
+public:
+    static void send_current(Can &can, uint32_t send_id, int16_t current_0, int16_t current_1, int16_t current_2, int16_t current_3)
+    {
+        int8_t current[8];
+        current[0] = current_0 >> 8;
+        current[1] = current_0;
+        current[2] = current_1 >> 8;
+        current[3] = current_1;
+        current[4] = current_2 >> 8;
+        current[5] = current_2;
+        current[6] = current_3 >> 8;
+        current[7] = current_3;
+        can.send(send_id, current, 8);
     }
 };
