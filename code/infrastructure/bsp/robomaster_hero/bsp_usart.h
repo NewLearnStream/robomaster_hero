@@ -11,7 +11,7 @@
 *********************************************************************************************************
 * @file   : bsp_usart.h
 * @author : liyoyan
-* @date   : 2 JAN 2024
+* @date   : 2 Jan 2024
 * @brief  :
 *
 *********************************************************************************************************
@@ -23,10 +23,12 @@
 extern "C" {
 #endif // __cplusplus
 
-#include "stm32f4xx.h"
+#include "main.h"
 
+extern UART_HandleTypeDef huart1;
 
-
+void MX_USART_Init(void);
+void MX_DMA_Init(void);
 
 #ifdef __cplusplus
 }
