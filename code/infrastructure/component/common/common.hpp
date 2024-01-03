@@ -41,4 +41,5 @@ static inline T abs_max(T *arr, uint32_t len)
         if (abs(arr[i]) > max)
             max = abs(arr[i]);
     }
+    return max;
 }

@@ -9,9 +9,9 @@
 
 /**
 *********************************************************************************************************
-* @file   : app.cpp
+* @file   : led.hpp
 * @author : xiongqulin
-* @date   : 25 Dev 2023
+* @date   : 3 Jan 2024
 * @brief  :
 *
 *********************************************************************************************************
@@ -19,31 +19,34 @@
 
 #pragma once
 
-#include "bsp.hpp"
-#include "infrastructure/device/led/blink_led.hpp"
-#include "infrastructure/device/motor/m3508.hpp"
-#include "infrastructure/component/common/pid.hpp"
+#include "infrastructure/platform/hal/dio.hpp"
 
-namespace App {
-struct App {
+class Led {
+private:
+    Dio &_dio;
+    uint32_t _active_status; // 是否为反逻辑
 
-    IncrementalPid<float> _pid_lf; // 左前轮PID参数
-    IncrementalPid<float> _pid_lr; // 左后轮PID参数
-    IncrementalPid<float> _pid_rr; // 右前轮PID参数
-    IncrementalPid<float> _pid_rf; // 左前轮PID参数
+public:
+    Led(Dio &dio, uint32_t active_status = 0)
+        : _dio(dio),
+          _active_status(active_status)
+    {
+    }
 
-    BlinkLed blink_led;
+    void open()
+    {
+        uint32_t status = _active_status ? 1 : 0;
+        _dio.write(status);
+    }
 
-    M3508 m3508_lf; // 左前轮电机
-    M3508 m3508_lr; // 左后轮电机
-    M3508 m3508_rr; // 右后轮电机
-    M3508 m3508_rf; // 右前轮电机
+    void close()
+    {
+        uint32_t status = _active_status ? 0 : 1;
+        _dio.write(status);
+    }
 
-    App();
+    void toggle()
+    {
+        _dio.toggle();
+    }
 };
-
-void init();
-
-}; // namespace App
-
-extern App::App *app;

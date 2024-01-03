@@ -19,6 +19,7 @@
 
 #pragma once
 #include <math.h>
+#include <cstring>
 
 class MotorBase {
 public:
@@ -29,7 +30,7 @@ public:
         uint8_t temperture;
     };
 
-private:
+protected:
     const uint16_t _motor_id;
 
 public:
@@ -38,9 +39,9 @@ public:
     {
     }
 
-    void decode(Message *message, uint8_t *buf)
+    void decode(Message *message, uint8_t *buf, uint32_t len)
     {
-        memcpy(message->data, buf, sizeof(message->data));
+        memcpy(message, buf, len);
     }
 
     uint16_t get_id()

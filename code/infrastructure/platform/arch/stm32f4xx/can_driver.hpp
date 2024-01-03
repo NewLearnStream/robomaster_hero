@@ -36,7 +36,7 @@ public:
     {
     }
 
-    void send(const uint32_t id, uint8_t *buf, uint32_t len)
+    void write(const uint32_t id, uint8_t *buf, uint32_t len)
     {
         CAN_TxHeaderTypeDef can_tx_hander;
         can_tx_hander.StdId              = id;
@@ -48,7 +48,7 @@ public:
         HAL_CAN_AddTxMessage(_hcan, &can_tx_hander, buf, &can_tx_mailbox);
     }
 
-    void rece(const uint32_t id, uint8_t *buf, uint32_t len)
+    void read(const uint32_t id, uint8_t *buf, uint32_t len)
     {
         // CAN_RxHeaderTypeDef can_rx_hander;
         // can_rx_hander.StdId = id;

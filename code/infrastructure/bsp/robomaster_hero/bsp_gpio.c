@@ -9,41 +9,24 @@
 
 /**
 *********************************************************************************************************
-* @file   : app.cpp
+* @file   : bsp_gpio.c
 * @author : xiongqulin
-* @date   : 25 Dev 2023
+* @date   : 3 Jan 2024
 * @brief  :
 *
 *********************************************************************************************************
 */
 
-#pragma once
+#include "bsp_gpio.h"
 
-#include "bsp.hpp"
-#include "infrastructure/device/led/blink_led.hpp"
-#include "infrastructure/device/motor/m3508.hpp"
-#include "infrastructure/component/common/pid.hpp"
+void bsp_gpio_init()
+{
+    GPIO_InitTypeDef gpio_init;
 
-namespace App {
-struct App {
+    gpio_init.Pin   = GPIO_PIN_7;
+    gpio_init.Mode  = GPIO_MODE_OUTPUT_PP;
+    gpio_init.Pin   = GPIO_PULLUP;
+    gpio_init.Speed = GPIO_SPEED_FREQ_LOW;
 
-    IncrementalPid<float> _pid_lf; // 左前轮PID参数
-    IncrementalPid<float> _pid_lr; // 左后轮PID参数
-    IncrementalPid<float> _pid_rr; // 右前轮PID参数
-    IncrementalPid<float> _pid_rf; // 左前轮PID参数
-
-    BlinkLed blink_led;
-
-    M3508 m3508_lf; // 左前轮电机
-    M3508 m3508_lr; // 左后轮电机
-    M3508 m3508_rr; // 右后轮电机
-    M3508 m3508_rf; // 右前轮电机
-
-    App();
-};
-
-void init();
-
-}; // namespace App
-
-extern App::App *app;
+    HAL_GPIO_Init(GPIOE, &gpio_init);
+}

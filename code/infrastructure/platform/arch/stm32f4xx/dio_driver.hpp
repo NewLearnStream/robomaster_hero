@@ -9,41 +9,48 @@
 
 /**
 *********************************************************************************************************
-* @file   : app.cpp
+* @file   : dio.hpp
 * @author : xiongqulin
-* @date   : 25 Dev 2023
+* @date   : 3 Jan 2023
 * @brief  :
 *
 *********************************************************************************************************
 */
+#include "stm32f4xx_ll_gpio.h"
+#include "infrastructure/platform/hal/dio.hpp"
 
-#pragma once
+class DioDriver : public Dio {
+private:
+    GPIO_TypeDef *_gpio;
+    uint32_t _pin;
 
-#include "bsp.hpp"
-#include "infrastructure/device/led/blink_led.hpp"
-#include "infrastructure/device/motor/m3508.hpp"
-#include "infrastructure/component/common/pid.hpp"
+public:
+    DioDriver(GPIO_TypeDef *gpio, uint32_t pin)
+        : _gpio(gpio),
+          _pin(pin)
+    {
+    }
 
-namespace App {
-struct App {
+    void write(uint32_t status)
+    {
+        if (status != 0u)
+            LL_GPIO_SetOutputPin(_gpio, _pin);
+        else
+            LL_GPIO_ResetOutputPin(_gpio, _pin);
+    }
 
-    IncrementalPid<float> _pid_lf; // 左前轮PID参数
-    IncrementalPid<float> _pid_lr; // 左后轮PID参数
-    IncrementalPid<float> _pid_rr; // 右前轮PID参数
-    IncrementalPid<float> _pid_rf; // 左前轮PID参数
+    void toggle()
+    {
+        LL_GPIO_TogglePin(_gpio, _pin);
+    }
 
-    BlinkLed blink_led;
+    bool read_input()
+    {
+        return LL_GPIO_IsInputPinSet(_gpio, _pin);
+    }
 
-    M3508 m3508_lf; // 左前轮电机
-    M3508 m3508_lr; // 左后轮电机
-    M3508 m3508_rr; // 右后轮电机
-    M3508 m3508_rf; // 右前轮电机
-
-    App();
+    bool read_output()
+    {
+        return LL_GPIO_IsOutputPinSet(_gpio, _pin);
+    }
 };
-
-void init();
-
-}; // namespace App
-
-extern App::App *app;

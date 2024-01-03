@@ -18,19 +18,26 @@
 */
 
 #include "bsp.hpp"
+#include <new>
 
 BSP::Board *board = nullptr;
 
 namespace BSP {
 Board::Board()
-    : can1(&hcan1),
+    : dio_pe7(GPIOE, GPIO_PIN_7),
+      can1(&hcan1),
       can2(&hcan1)
 {
 }
 
 void init()
 {
+    bsp_cpu_init();
+    bsp_gpio_init();
     bsp_can_init();
+
+    static uint8_t mem_board[sizeof(Board)];
+    board = new (mem_board) Board;
 }
 
 void deinit()

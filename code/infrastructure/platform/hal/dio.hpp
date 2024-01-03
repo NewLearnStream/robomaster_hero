@@ -9,41 +9,22 @@
 
 /**
 *********************************************************************************************************
-* @file   : app.cpp
+* @file   : dio.hpp
 * @author : xiongqulin
-* @date   : 25 Dev 2023
+* @date   : 3 Jan 2023
 * @brief  :
 *
 *********************************************************************************************************
 */
-
 #pragma once
 
-#include "bsp.hpp"
-#include "infrastructure/device/led/blink_led.hpp"
-#include "infrastructure/device/motor/m3508.hpp"
-#include "infrastructure/component/common/pid.hpp"
+class Dio {
+public:
+    virtual void write(uint32_t status) = 0;
 
-namespace App {
-struct App {
+    virtual void toggle() = 0;
 
-    IncrementalPid<float> _pid_lf; // 左前轮PID参数
-    IncrementalPid<float> _pid_lr; // 左后轮PID参数
-    IncrementalPid<float> _pid_rr; // 右前轮PID参数
-    IncrementalPid<float> _pid_rf; // 左前轮PID参数
+    virtual bool read_input() = 0;
 
-    BlinkLed blink_led;
-
-    M3508 m3508_lf; // 左前轮电机
-    M3508 m3508_lr; // 左后轮电机
-    M3508 m3508_rr; // 右后轮电机
-    M3508 m3508_rf; // 右前轮电机
-
-    App();
+    virtual bool read_output() = 0;
 };
-
-void init();
-
-}; // namespace App
-
-extern App::App *app;

@@ -21,8 +21,6 @@
 #include "infrastructure/component/common/os.hpp"
 #include "infrastructure/component/common/common.hpp"
 #include "infrastructure/platform/hal/can.hpp"
-#include "infrastructure/component/common/pid.hpp"
-#include "infrastructure/device/motor/m3508.hpp"
 #include "app_config.h"
 
 class ChassisThread : public os::Thread<THREAD_STACK_SIZE_CHASSIS> {
@@ -36,10 +34,6 @@ private:
 
 private:
     Can &_can;
-    IncrementalPid pid_lf(1.0f, 1.0f, 1.0f, 3000, 200); // 左前轮PID参数
-    IncrementalPid pid_lr(1.0f, 1.0f, 1.0f, 3000, 200); // 左后轮PID参数
-    IncrementalPid pid_rr(1.0f, 1.0f, 1.0f, 3000, 200); // 右前轮PID参数
-    IncrementalPid pid_rf(1.0f, 1.0f, 1.0f, 3000, 200); // 左前轮PID参数
 
     M3508 &m3508_lf; // 左前轮电机
     M3508 &m3508_lr; // 左后轮电机
@@ -52,10 +46,10 @@ public:
     ChassisThread(const char *name = "chassis_thread")
         : Thread(name, Thread_Prio_Chassis),
           _can(board->can1),
-          m3508_lf(0x201, pid_lf),
-          m3508_lr(0x202, pid_lr),
-          m3508_rr(0x203, pid_rr),
-          m3508_rf(0x204, pid_rf)
+          m3508_lf(app->m3508_lf),
+          m3508_lr(app->m3508_lr),
+          m3508_rr(app->m3508_rr),
+          m3508_rf(app->m3508_rf)
     {
     }
 
@@ -90,7 +84,7 @@ public:
         while (1)
         {
             /*需要在这里等待对应的事件才能触发后面的操作*/
-            mecanum_calculate(x, y, w);
+            //  mecanum_calculate(x, y, w);
             M3508::send_current(_can, send_can_id,
                                 m3508_lf.output_current(_motor_speed[0]), m3508_lr.output_current(_motor_speed[1]),
                                 m3508_rr.output_current(_motor_speed[2]), m3508_rf.output_current(_motor_speed[3]));

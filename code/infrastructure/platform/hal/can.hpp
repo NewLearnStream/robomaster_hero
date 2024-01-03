@@ -16,10 +16,11 @@
 *
 *********************************************************************************************************
 */
+#pragma once
 
 class Can {
 public:
-    virtual void send(const uint32_t id, uint8_t *buf, uint32_t len) = 0;
+    virtual void write(const uint32_t id, uint8_t *buf, uint32_t len) = 0;
 
-    virtual void rece(const uint32_t id, uint8_t *buf, uint32_t len) = 0;
+    virtual void read(const uint32_t id, uint8_t *buf, uint32_t len) = 0;
 };

@@ -19,6 +19,8 @@
 
 #include "common.hpp"
 
+#pragma once
+
 template <typename T>
 class PidBase {
 protected:
@@ -37,8 +39,8 @@ public:
           _kd(kd),
           _output_max(output_max),
           _integral_limit(integral_limit),
-          _err(reinterpret_cast<T>(0)),
-          _last_err(reinterpret_cast<T>(0))
+          _err(static_cast<T>(0)),
+          _last_err(static_cast<T>(0))
     {
     }
 
@@ -53,7 +55,7 @@ private:
 public:
     IncrementalPid(const T kp, const T ki, const T kd, const T output_max, const T integral_limit)
         : PidBase<T>(kp, ki, kd, output_max, integral_limit),
-          _before_err(reinterpret_cast<T>(0))
+          _before_err(static_cast<T>(0))
 
     {
     }
@@ -90,7 +92,7 @@ private:
 public:
     PostionPid(const T kp, const T ki, const T kd, const T output_max, const T integral_limit)
         : PidBase<T>(kp, ki, kd, output_max, integral_limit),
-          total_integral(reinterpret_cast<T>(0))
+          total_integral(static_cast<T>(0))
     {
     }
 
@@ -120,8 +122,8 @@ public:
 template <typename T>
 class SeriesPostionPid {
 private:
-    PostionPid<T> &_interior_pid;  //内环PID
-    PostionPid<T> &_outer_pid;     //外环PID
+    PostionPid<T> &_interior_pid; // 内环PID
+    PostionPid<T> &_outer_pid;    // 外环PID
 
 public:
     SeriesPostionPid(PostionPid<T> &interior_pid, PostionPid<T> &outer_pid)

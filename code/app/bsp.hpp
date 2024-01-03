@@ -19,12 +19,17 @@
 
 #pragma once
 
+#include "bsp_cpu.h"
+#include "bsp_gpio.h"
 #include "bsp_can.h"
 
 #include "infrastructure/platform/arch/stm32f4xx/can_driver.hpp"
+#include "infrastructure/platform/arch/stm32f4xx/dio_driver.hpp"
 
 namespace BSP {
-struct Board {
+class Board {
+public:
+    DioDriver dio_pe7;
     CanDriver can1;
     CanDriver can2;
     Board();
