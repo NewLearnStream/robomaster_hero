@@ -28,7 +28,11 @@ extern "C" {
 extern UART_HandleTypeDef huart1;
 
 void MX_USART_Init(void);
-void MX_DMA_Init(void);
+
+
+
+void USART1_IRQHandler(void)；
+void DMA2_Stream2_IRQHandler(void)；
 
 #ifdef __cplusplus
 }
